@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "185083232891",
+    "firebase_url": "https://youroute-5d580.firebaseio.com",
+    "project_id": "youroute-5d580",
+    "storage_bucket": "youroute-5d580.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:185083232891:android:2be89b40420f120f1bd8de",
+        "android_client_info": {
+          "package_name": "com.example.youroute"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "185083232891-g1s10hl3k7803o8khaa4827g94kel6pr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.youroute",
+            "certificate_hash": "ecd2bfd72d669c1f573ce581be83ad8b93f6c565"
+          }
+        },
+        {
+          "client_id": "185083232891-m23fdnq0it4o1ul6quo3iiknmo179qil.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhnpTXDJ_ikS0OBmcMgmR8lD-HAK4gy5Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "185083232891-m23fdnq0it4o1ul6quo3iiknmo179qil.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
