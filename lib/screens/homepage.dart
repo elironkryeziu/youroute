@@ -6,6 +6,9 @@ import 'package:youroute/screens/addpost.dart';
 import 'package:youroute/screens/login.dart';
 import 'package:youroute/screens/posts.dart';
 import 'package:youroute/screens/routepage.dart';
+import 'package:youroute/components/drawer.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 
 class Homepage extends StatefulWidget {
@@ -16,6 +19,21 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
+
+  final dbReference = Firestore.instance;
+  FirebaseUser user;
+
+  void getUser() async{
+    user = await FirebaseAuth.instance.currentUser();
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getUser();
+  }
+
   bool addposttab = false;
 
   @override
@@ -24,36 +42,11 @@ class _HomepageState extends State<Homepage> {
       backgroundColor: Color.fromRGBO(246, 248, 253, 1),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
+        iconTheme: new IconThemeData(color: Color.fromRGBO(68, 68, 68, 1)),
         elevation: 0,
         brightness: Brightness.light,
-        actions: <Widget>[
-          Padding(
-            padding: EdgeInsets.all(10.0),
-            child: Container(
-              width: 35,
-              height: 35,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  image: DecorationImage(
-                      image: AssetImage('assets/images/four.jpg'),
-                      fit: BoxFit.cover
-                  )
-              ),
-              child: Transform.translate(
-                offset: Offset(15, -15),
-                child: Container(
-                  margin: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                      border: Border.all(width: 3, color: Colors.white),
-                      shape: BoxShape.circle,
-                      color: Colors.yellow[800]
-                  ),
-                ),
-              ),
-            ),
-          )
-        ],
       ),
+      drawer: MyDrawer(),
       bottomNavigationBar: FancyBottomNavigation(
         circleColor: Colors.green,
         inactiveIconColor: Colors.green,

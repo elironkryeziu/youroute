@@ -16,6 +16,7 @@ class _RoutePageState extends State<RoutePage> {
   FirebaseUser user;
   CollectionReference passangersRef;
   bool _isPassanger = false;
+  bool _isDriver = true;
 
   void addPassanger() async {
     user = await FirebaseAuth.instance.currentUser();
@@ -25,6 +26,9 @@ class _RoutePageState extends State<RoutePage> {
         .collection("passangers");
     passangersRef
         .add({'passanger_id': user.uid, 'passanger_name': user.displayName});
+    setState(() {
+      _isPassanger = true;
+    });
   }
 
   void removePassanger() async {
@@ -83,6 +87,12 @@ class _RoutePageState extends State<RoutePage> {
     }
   }
 
+  void deletePost() async {
+    dbReference
+        .collection("routes")
+        .document(widget.id).delete();
+  }
+
   @override
   void initState() {
     super.initState();
@@ -133,7 +143,6 @@ class _RoutePageState extends State<RoutePage> {
 
   Widget _postContent(BuildContext context, DocumentSnapshot document) {
     showAlertDialog(BuildContext context, bool _isPass) {
-      // set up the buttons
       Widget cancelButton = FlatButton(
         child: Text("Anuloje"),
         onPressed: () {
@@ -156,7 +165,6 @@ class _RoutePageState extends State<RoutePage> {
           }
         },
       );
-      // set up the AlertDialog
       AlertDialog alert = AlertDialog(
         title: Text("Alert"),
         content: _isPass
@@ -176,12 +184,39 @@ class _RoutePageState extends State<RoutePage> {
         },
       );
     }
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         SizedBox(
-          height: 120,
+          height: 40,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            InkWell(
+              onTap: (){
+                Navigator.pop(context);
+              },
+              child: Container(
+                padding: EdgeInsets.all(20),
+                child: Text("<",style:TextStyle(fontSize: 20,fontWeight: FontWeight.bold)),
+              ),
+            ),
+            _isDriver ?
+            InkWell(
+              onTap: (){
+                deletePost();
+                Navigator.pop(context);
+              },
+              child: Container(
+                padding: EdgeInsets.all(20),
+                child: Icon(Icons.delete)
+              ),
+            ) : Container(),
+          ],
+        ),
+        SizedBox(
+          height: 20,
         ),
         Expanded(
           child: Container(
@@ -298,7 +333,31 @@ class _RoutePageState extends State<RoutePage> {
                       : ListTile(),
                   Divider(),
                   !_isPassanger
+                      ? int.parse(document['people']) == 0
                       ? Container(
+                    height: 40.0,
+                    width: 200,
+                    child: Material(
+                      borderRadius: BorderRadius.circular(20.0),
+                      shadowColor: Colors.redAccent,
+                      color: Colors.red,
+                      elevation: 7.0,
+                      child: GestureDetector(
+                        onTap: () {
+                        },
+                        child: Center(
+                          child: Text(
+                            'Nuk ka vende te lira',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                      : Container(
                           height: 40.0,
                           width: 200,
                           child: Material(

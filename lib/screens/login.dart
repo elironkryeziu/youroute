@@ -114,7 +114,7 @@ class LoginPage extends StatelessWidget {
                               FirebaseUser user = await login(email, password);
                               if(user != null){
                                 Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => Homepage(name: user.displayName)
+                                    builder: (context) => Homepage()
                                 ));
                               }else{
                                 print("error");
