@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:youroute/components/comment.dart';
 
 class RoutePage extends StatefulWidget {
   final id;
@@ -357,7 +358,7 @@ class _RoutePageState extends State<RoutePage> {
                             return const Text('Loading...');
                           return ListView.builder(
                             itemCount: snapshot.data.documents.length,
-                            itemBuilder: (context, index) => _comment(
+                            itemBuilder: (context, index) => comment(
                                 context, snapshot.data.documents[index]),
                           );
                         }),
@@ -372,21 +373,3 @@ class _RoutePageState extends State<RoutePage> {
   }
 }
 
-Widget _comment(BuildContext context, DocumentSnapshot document) {
-  return ListTile(
-    leading: Stack(
-      children: <Widget>[
-        CircleAvatar(
-          radius: 15,
-          child: Text(
-            document['user_name'][0].toString().toUpperCase(),
-            style: TextStyle(color: Colors.white, fontSize: 15),
-          ),
-          backgroundColor: Colors.grey,
-        ),
-      ],
-    ),
-    title: Text(document['user_name']),
-    subtitle: Text(document['content']),
-  );
-}
