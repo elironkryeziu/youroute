@@ -122,7 +122,7 @@ class _RoutePageState extends State<RoutePage> {
           ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: (){
-          _addComment();
+          _addComment(context);
         },
         icon: Icon(Icons.add_comment),
         label: Text("Komento"),
@@ -131,22 +131,36 @@ class _RoutePageState extends State<RoutePage> {
     );
   }
 
-
-  Widget _addComment() {
-    return ListTile(
-        title: TextFormField(
-          controller: _commentController,
-          decoration: InputDecoration(labelText: 'Shkruaj nje koment...'),
-        ),
-        trailing: OutlineButton(
-            onPressed: () {
-              if (_commentController.text.isNotEmpty) {
+  _addComment(BuildContext context) async {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Shkruaj komentin'),
+            content: TextField(
+            controller: _commentController,
+              //decoration: InputDecoration(hintText: "TextField in Dialog"),
+            ),
+            actions: <Widget>[
+              new FlatButton(
+                child: new Text('Anuloje'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              new FlatButton(
+                child: new Text('Dergo'),
+                onPressed: () {
+                if (_commentController.text.isNotEmpty) {
                 addComment(_commentController.text.toString());
                 _commentController.clear();
-              }
-            },
-            borderSide: BorderSide.none,
-            child: Text("Dergo", style: TextStyle(color: Colors.blue))));
+                Navigator.of(context).pop();
+                }
+                },
+              )
+            ],
+          );
+        });
   }
 
   Widget _postContent(BuildContext context, DocumentSnapshot document) {
