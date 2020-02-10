@@ -120,9 +120,17 @@ class _RoutePageState extends State<RoutePage> {
               })
           //_postContent(context,documentReference),
           ),
-      bottomSheet: _addComment(),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: (){
+          _addComment();
+        },
+        icon: Icon(Icons.add_comment),
+        label: Text("Komento"),
+        backgroundColor: Colors.green,
+      ),
     );
   }
+
 
   Widget _addComment() {
     return ListTile(
@@ -405,6 +413,7 @@ class _RoutePageState extends State<RoutePage> {
                             ),
                           ),
                         ),
+                  Divider(),
                   Expanded(
                     child: StreamBuilder(
                         stream: dbReference
