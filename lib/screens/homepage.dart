@@ -9,7 +9,7 @@ import 'package:youroute/screens/routepage.dart';
 import 'package:youroute/components/drawer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Homepage extends StatefulWidget {
   final name;
@@ -21,10 +21,16 @@ class Homepage extends StatefulWidget {
 class _HomepageState extends State<Homepage> {
 
   final dbReference = Firestore.instance;
+  SharedPreferences prefs;
   FirebaseUser user;
+  String name,email;
 
   void getUser() async{
     user = await FirebaseAuth.instance.currentUser();
+    prefs = await SharedPreferences.getInstance();
+    name = prefs.getString("name");
+    email = prefs.getString("email");
+
   }
 
   @override

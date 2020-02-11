@@ -9,14 +9,11 @@ class LoginPage extends StatelessWidget {
   final _passwordController = TextEditingController();
 
   Future<FirebaseUser> login(String email, String password) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
     FirebaseAuth _auth = FirebaseAuth.instance;
 
     try{
       AuthResult result = await _auth.signInWithEmailAndPassword(email: email, password: password);
       FirebaseUser user = result.user;
-      prefs.setString("name", user.displayName);
-      prefs.setString("email", user.email);
       return user;
     }catch(e){
       print(e);
@@ -113,9 +110,11 @@ class LoginPage extends StatelessWidget {
                             onTap: () async{
                               final email = _emailController.text.toString().trim();
                               final password = _passwordController.text.toString().trim();
-
                               FirebaseUser user = await login(email, password);
+                              SharedPreferences prefs = await SharedPreferences.getInstance();
                               if(user != null){
+                                prefs.setString("name", user.displayName);
+                                prefs.setString("email", user.email);
                                 Navigator.of(context).push(MaterialPageRoute(
                                     builder: (context) => Homepage()
                                 ));
