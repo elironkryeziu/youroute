@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'homepage.dart';
 
@@ -8,12 +9,14 @@ class LoginPage extends StatelessWidget {
   final _passwordController = TextEditingController();
 
   Future<FirebaseUser> login(String email, String password) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     FirebaseAuth _auth = FirebaseAuth.instance;
 
     try{
       AuthResult result = await _auth.signInWithEmailAndPassword(email: email, password: password);
       FirebaseUser user = result.user;
-
+      prefs.setString("name", user.displayName);
+      prefs.setString("email", user.email);
       return user;
     }catch(e){
       print(e);

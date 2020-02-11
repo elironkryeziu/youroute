@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class MyDrawer extends StatefulWidget {
@@ -13,17 +13,16 @@ class MyDrawer extends StatefulWidget {
 
 class _MyDrawerState extends State<MyDrawer> {
   final dbReference = Firestore.instance;
-  FirebaseUser user;
+  SharedPreferences prefs;
 
-  void getUser() async{
-    user = await FirebaseAuth.instance.currentUser();
+  void getData() async{
+    prefs = await SharedPreferences.getInstance();
   }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    getUser();
+    getData();
   }
 
   @override
@@ -33,11 +32,11 @@ class _MyDrawerState extends State<MyDrawer> {
       child: ListView(
         children: <Widget>[
           UserAccountsDrawerHeader(
-            accountName: Text(user.displayName,style: TextStyle(color: Colors.black,)),
-            accountEmail: Text(user.email,style: TextStyle(color: Colors.black,)),
+            accountName: Text(prefs.getString("name"),style: TextStyle(color: Colors.black,)),
+            accountEmail: Text(prefs.getString("email"),style: TextStyle(color: Colors.black,)),
             currentAccountPicture: CircleAvatar(
                     backgroundColor: Colors.green,
-                    child: Text(user.displayName[0],style: TextStyle(fontSize: 30,color: Colors.white,fontWeight: FontWeight.bold),),
+                    child: Text(prefs.getString("name")[0],style: TextStyle(fontSize: 30,color: Colors.white,fontWeight: FontWeight.bold),),
             ),
               decoration: new BoxDecoration(
                   color: Color.fromRGBO(249, 249, 249, 1)
