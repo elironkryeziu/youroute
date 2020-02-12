@@ -38,21 +38,11 @@ class SignupPage extends StatelessWidget {
                   Container(
                     padding: EdgeInsets.fromLTRB(15.0, 110.0, 0.0, 0.0),
                     child: Text(
-                      'Signup',
+                      'Regjistrohu',
                       style:
-                      TextStyle(fontSize: 80.0, fontWeight: FontWeight.bold),
+                      TextStyle(fontSize: 60.0, fontWeight: FontWeight.bold),
                     ),
                   ),
-                  Container(
-                    padding: EdgeInsets.fromLTRB(260.0, 125.0, 0.0, 0.0),
-                    child: Text(
-                      '.',
-                      style: TextStyle(
-                          fontSize: 80.0,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.green),
-                    ),
-                  )
                 ],
               ),
             ),
@@ -63,7 +53,7 @@ class SignupPage extends StatelessWidget {
                     TextFormField(
                       controller: _nameController,
                       decoration: InputDecoration(
-                          labelText: 'Name',
+                          labelText: 'Emri',
                           labelStyle: TextStyle(
                               fontFamily: 'Montserrat',
                               fontWeight: FontWeight.bold,
@@ -125,7 +115,7 @@ class SignupPage extends StatelessWidget {
                             },
                             child: Center(
                               child: Text(
-                                'Register',
+                                'Regjistrohu',
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
@@ -153,7 +143,7 @@ class SignupPage extends StatelessWidget {
                           child:
 
                           Center(
-                            child: Text('Go Back',
+                            child: Text('Kthehu mbrapa',
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontFamily: 'Montserrat')),

@@ -16,7 +16,7 @@ class _RoutePageState extends State<RoutePage> {
   FirebaseUser user;
   CollectionReference passangersRef;
   bool _isPassanger = false;
-  bool _isDriver = true;
+  bool _isDriver = false;
 
   void addPassanger() async {
     user = await FirebaseAuth.instance.currentUser();
@@ -54,6 +54,20 @@ class _RoutePageState extends State<RoutePage> {
     }
   }
 
+  Future<List<String>> getPassangers() async {
+    List<String> passangers = [];
+    final QuerySnapshot result = await dbReference
+        .collection('routes')
+        .document(widget.id)
+        .collection("passangers")
+        .getDocuments();
+    final List<DocumentSnapshot> documents = result.documents;
+    for (var document in documents) {
+      passangers.add(document['passanger_name']);
+    }
+    return passangers;
+  }
+
   void addComment(String comment) async {
     user = await FirebaseAuth.instance.currentUser();
     passangersRef = await dbReference
@@ -87,6 +101,18 @@ class _RoutePageState extends State<RoutePage> {
     }
   }
 
+  Future<void> checkIfDriver() async {
+    user = await FirebaseAuth.instance.currentUser();
+    DocumentSnapshot document = await dbReference
+        .collection('routes')
+        .document(widget.id).get();
+      if (document['user_id'] == user.uid) {
+        setState(() {
+          _isDriver = true;
+        });
+      }
+  }
+
   void deletePost() async {
     dbReference
         .collection("routes")
@@ -97,6 +123,7 @@ class _RoutePageState extends State<RoutePage> {
   void initState() {
     super.initState();
     checkIfPassanger();
+    checkIfDriver();
   }
 
   @override
@@ -354,6 +381,7 @@ class _RoutePageState extends State<RoutePage> {
                         )
                       : ListTile(),
                   Divider(),
+                  !_isDriver ?
                   !_isPassanger
                       ? int.parse(document['people']) == 0
                       ? Container(
@@ -426,7 +454,32 @@ class _RoutePageState extends State<RoutePage> {
                               ),
                             ),
                           ),
-                        ),
+                        )
+                      : FutureBuilder(
+                    future: getPassangers(),
+                    builder: (BuildContext context, AsyncSnapshot snapshot){
+                    if (snapshot.data == null) {
+                    return Container(
+                     child: Center(
+                        child: Text("Loading..")));
+                    }
+                    else{
+                      return Container(
+                        height: 40,
+                        child: GridView.builder(
+                          itemCount: snapshot.data.length,
+                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount:3),
+                            itemBuilder: (BuildContext context, int index) {
+                              return Container(
+                                height: 10,
+                                child: Text((index+1).toString()+ "." +snapshot.data[index].toString(),style: TextStyle(fontWeight: FontWeight.bold),),
+                              );
+                            }),
+                      );
+                    }
+                    }
+                    ),
                   Divider(),
                   Expanded(
                     child: StreamBuilder(

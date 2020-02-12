@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
 
 import 'homepage.dart';
 
@@ -16,7 +18,14 @@ class LoginPage extends StatelessWidget {
       FirebaseUser user = result.user;
       return user;
     }catch(e){
-      print(e);
+      Fluttertoast.showToast(
+          msg: e.toString(),
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.TOP,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
       return null;
     }
   }
@@ -33,19 +42,13 @@ class LoginPage extends StatelessWidget {
                 child: Stack(
                   children: <Widget>[
                     Container(
-                      padding: EdgeInsets.fromLTRB(15.0, 110.0, 0.0, 0.0),
-                      child: Text('Hello',
-                          style: TextStyle(
-                              fontSize: 80.0, fontWeight: FontWeight.bold)),
-                    ),
-                    Container(
                       padding: EdgeInsets.fromLTRB(16.0, 175.0, 0.0, 0.0),
-                      child: Text('There',
+                      child: Text('youroute',
                           style: TextStyle(
-                              fontSize: 80.0, fontWeight: FontWeight.bold)),
+                              fontSize: 70.0, fontWeight: FontWeight.bold)),
                     ),
                     Container(
-                      padding: EdgeInsets.fromLTRB(220.0, 175.0, 0.0, 0.0),
+                      padding: EdgeInsets.fromLTRB(290.0, 175.0, 0.0, 0.0),
                       child: Text('.',
                           style: TextStyle(
                               fontSize: 80.0,
@@ -89,7 +92,7 @@ class LoginPage extends StatelessWidget {
                         padding: EdgeInsets.only(top: 15.0, left: 20.0),
                         child: InkWell(
                           child: Text(
-                            'Forgot Password?',
+                            'Keni harruar fjalekalimin?',
                             style: TextStyle(
                                 color: Colors.green,
                                 fontWeight: FontWeight.bold,
@@ -119,12 +122,19 @@ class LoginPage extends StatelessWidget {
                                     builder: (context) => Homepage()
                                 ));
                               }else{
-                                print("error");
+                                Fluttertoast.showToast(
+                                    msg: "Emaili ose fjalekalimi gabim",
+                                    toastLength: Toast.LENGTH_SHORT,
+                                    gravity: ToastGravity.TOP,
+                                    backgroundColor: Colors.red,
+                                    textColor: Colors.white,
+                                    fontSize: 16.0
+                                );
                               }
                             },
                             child: Center(
                               child: Text(
-                                'Login',
+                                'Kyqu',
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
@@ -135,35 +145,35 @@ class LoginPage extends StatelessWidget {
                         ),
                       ),
                       SizedBox(height: 20.0),
-                      Container(
-                        height: 40.0,
-                        color: Colors.transparent,
-                        child: Container(
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: Colors.black,
-                                  style: BorderStyle.solid,
-                                  width: 1.0),
-                              color: Colors.transparent,
-                              borderRadius: BorderRadius.circular(20.0)),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Center(
-                                child:
-                                ImageIcon(AssetImage('assets/facebook.png')),
-                              ),
-                              SizedBox(width: 10.0),
-                              Center(
-                                child: Text('Login with Facebook',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontFamily: 'Montserrat')),
-                              )
-                            ],
-                          ),
-                        ),
-                      )
+//                      Container(
+//                        height: 40.0,
+//                        color: Colors.transparent,
+//                        child: Container(
+//                          decoration: BoxDecoration(
+//                              border: Border.all(
+//                                  color: Colors.black,
+//                                  style: BorderStyle.solid,
+//                                  width: 1.0),
+//                              color: Colors.transparent,
+//                              borderRadius: BorderRadius.circular(20.0)),
+//                          child: Row(
+//                            mainAxisAlignment: MainAxisAlignment.center,
+//                            children: <Widget>[
+//                              Center(
+//                                child:
+//                                ImageIcon(AssetImage('assets/facebook.png')),
+//                              ),
+//                              SizedBox(width: 10.0),
+//                              Center(
+//                                child: Text('Login with Facebook',
+//                                    style: TextStyle(
+//                                        fontWeight: FontWeight.bold,
+//                                        fontFamily: 'Montserrat')),
+//                              )
+//                            ],
+//                          ),
+//                        ),
+//                      )
                     ],
                   )),
               SizedBox(height: 15.0),
@@ -171,7 +181,7 @@ class LoginPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    'Don\'t have an account?',
+                    'Nese nuk keni llogari.',
                     style: TextStyle(fontFamily: 'Montserrat'),
                   ),
                   SizedBox(width: 5.0),
@@ -180,7 +190,7 @@ class LoginPage extends StatelessWidget {
                       Navigator.of(context).pushNamed('/signup');
                     },
                     child: Text(
-                      'Register',
+                      'Regjistrohu',
                       style: TextStyle(
                           color: Colors.green,
                           fontFamily: 'Montserrat',

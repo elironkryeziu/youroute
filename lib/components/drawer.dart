@@ -2,7 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:youroute/screens/homepage.dart';
 import 'package:youroute/screens/login.dart';
+import 'package:youroute/screens/myposts.dart';
 import 'package:youroute/screens/profile.dart';
 
 
@@ -55,7 +57,9 @@ class _MyDrawerState extends State<MyDrawer> {
               Divider(),
               InkWell(
                 onTap: () {
-                  Navigator.pop(context);
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => Homepage()
+                  ));
                 },
                 child: ListTile(
                   title: Text(
@@ -66,11 +70,13 @@ class _MyDrawerState extends State<MyDrawer> {
               ),
               InkWell(
                 onTap: () {
-                  Navigator.pop(context);
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => MyPosts()
+                  ));
                 },
                 child: ListTile(
                   title: Text(
-                    "Mesazhet",
+                    "Postimet e mija",
                   ),
                   leading: Icon(Icons.inbox),
                 ),
