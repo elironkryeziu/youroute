@@ -12,9 +12,9 @@ class MyPosts extends StatefulWidget {
 class _MyPostsState extends State<MyPosts> {
   final dbReference = Firestore.instance;
   FirebaseUser user;
-  String name,email;
+  String name, email;
 
-  Future<FirebaseUser> getUser() async{
+  Future<FirebaseUser> getUser() async {
     user = await FirebaseAuth.instance.currentUser();
     return user;
   }
@@ -38,42 +38,50 @@ class _MyPostsState extends State<MyPosts> {
       ),
       drawer: MyDrawer(),
       body: Container(
-      color: Colors.white,
+        color: Colors.white,
         child: FutureBuilder(
-        future: getUser(),
-        builder: (BuildContext context, AsyncSnapshot snapshot){
-          if (snapshot.data == null) {
-          return Container(
-            child: Center(
-              child: CircularProgressIndicator()));
-          } else {
-            return Container(
-          padding: EdgeInsets.only(left: 20,right: 20,top: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text("Postimet e mija:", style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
-              SizedBox(height: 20,),
-              Expanded(
-                child: Container(
-                    child: StreamBuilder(
-                      stream: dbReference.collection("routes").where('user_id',isEqualTo: user.uid).snapshots(),
-                      builder: (context,snapshot){
-                        if(!snapshot.hasData) return const Text('Loading...');
-                        return ListView.builder(
-                          itemCount: snapshot.data.documents.length,
-                          itemBuilder: (context, index) => makeCard(context,snapshot.data.documents[index]),
-                        );
-                      },
-                    )
-                ),
-              ),
-            ],
-          ),
-        );
-          }
-        }
-        ),
+            future: getUser(),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.data == null) {
+                return Container(
+                    child: Center(child: CircularProgressIndicator()));
+              } else {
+                return Container(
+                  padding: EdgeInsets.only(left: 20, right: 20, top: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        "Postimet e mija:",
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Expanded(
+                        child: Container(
+                            child: StreamBuilder(
+                          stream: dbReference
+                              .collection("routes")
+                              .where('user_id', isEqualTo: user.uid)
+                              .snapshots(),
+                          builder: (context, snapshot) {
+                            if (!snapshot.hasData)
+                              return const Text('Loading...');
+                            return ListView.builder(
+                              itemCount: snapshot.data.documents.length,
+                              itemBuilder: (context, index) => makeCard(
+                                  context, snapshot.data.documents[index]),
+                            );
+                          },
+                        )),
+                      ),
+                    ],
+                  ),
+                );
+              }
+            }),
       ),
     );
   }

@@ -9,23 +9,16 @@ import 'homepage.dart';
 class LoginPage extends StatelessWidget {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  bool _isLoading = false;
 
   Future<FirebaseUser> login(String email, String password) async {
     FirebaseAuth _auth = FirebaseAuth.instance;
-
     try{
       AuthResult result = await _auth.signInWithEmailAndPassword(email: email, password: password);
       FirebaseUser user = result.user;
       return user;
     }catch(e){
-      Fluttertoast.showToast(
-          msg: e.toString(),
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.TOP,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 16.0
-      );
+      print(e);
       return null;
     }
   }
@@ -33,7 +26,6 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        //resizeToAvoidBottomPadding: false,
         body: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -111,17 +103,23 @@ class LoginPage extends StatelessWidget {
                           elevation: 7.0,
                           child: GestureDetector(
                             onTap: () async{
+                              setState(){
+                                _isLoading = true;
+                              };
                               final email = _emailController.text.toString().trim();
                               final password = _passwordController.text.toString().trim();
                               FirebaseUser user = await login(email, password);
-                              SharedPreferences prefs = await SharedPreferences.getInstance();
                               if(user != null){
-                                prefs.setString("name", user.displayName);
-                                prefs.setString("email", user.email);
+                                setState(){
+                                  _isLoading = false;
+                                }
                                 Navigator.of(context).push(MaterialPageRoute(
                                     builder: (context) => Homepage()
                                 ));
                               }else{
+                                setState(){
+                                  _isLoading = false;
+                                }
                                 Fluttertoast.showToast(
                                     msg: "Emaili ose fjalekalimi gabim",
                                     toastLength: Toast.LENGTH_SHORT,
